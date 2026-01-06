@@ -15,7 +15,7 @@ export const create = mutation({
 
     await ctx.db.insert("projects", {
       name: args.name,
-      ownerId: "123",
+      ownerId: identity.subject,
     });
   },
 });
@@ -29,6 +29,9 @@ export const get = query({
       return [];
     }
 
-    return await ctx.db.query("projects").collect();
+    return await ctx.db
+      .query("projects")
+      .withIndex("bg_owner", (q) => q.eq("ownerId", identity.subject))
+      .collect();
   },
 });
