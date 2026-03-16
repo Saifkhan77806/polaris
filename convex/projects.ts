@@ -10,12 +10,12 @@ export const create = mutation({
     const identity = await ctx.auth.getUserIdentity();
 
     if (!identity) {
-      throw new Error("Unauthorized user");
+      throw new Error("Unauthorized");
     }
 
     await ctx.db.insert("projects", {
       name: args.name,
-      ownerId: identity.subject,
+      ownerId: identity?.subject,
     });
   },
 });
@@ -26,12 +26,9 @@ export const get = query({
     const identity = await ctx.auth.getUserIdentity();
 
     if (!identity) {
-      return [];
+      throw new Error("Unauthorized");
     }
 
-    return await ctx.db
-      .query("projects")
-      .withIndex("bg_owner", (q) => q.eq("ownerId", identity.subject))
-      .collect();
+    return await ctx.db.query("projects").collect();
   },
 });

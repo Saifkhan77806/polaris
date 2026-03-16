@@ -22,8 +22,8 @@ const page = () => {
         Cursor IDE
       </Button>
 
-      {projects?.map((item, index) => (
-        <div key={index}>
+      {projects?.map((item) => (
+        <div key={item._id}>
           {item.name} OwnerId:- {item.ownerId}
         </div>
       ))}
