@@ -3,7 +3,7 @@
 import { generateText } from "ai";
 import { google } from "@ai-sdk/google";
 
-export async function POST() {
+export async function POST() {3
   const response = await generateText({
     model: google("gemini-2.5-flash"),
     prompt: "Write a vegetarian lasagna recipe for 4 people",
