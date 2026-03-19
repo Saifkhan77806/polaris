@@ -1,0 +1,14 @@
+import ProjectIdView from "@/components/features/projects/components/ProjectIdView";
+import { Id } from "../../../../convex/_generated/dataModel";
+
+const ProjectId = async ({
+  params,
+}: {
+  params: Promise<{ projectId: Id<"projects"> }>;
+}) => {
+  const { projectId } = await params;
+
+  return <ProjectIdView projectId={projectId} />;
+};
+
+export default ProjectId;

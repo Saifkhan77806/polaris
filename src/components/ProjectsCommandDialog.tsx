@@ -49,7 +49,7 @@ const ProjectsCommandDialog = ({
   const projects = userProjects();
 
   const handleSelect = (projectId: string) => {
-    router.push(`/project/${projectId}`);
+    router.push(`/projects/${projectId}`);
     onOpenChange(false);
   };
   return (

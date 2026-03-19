@@ -31,7 +31,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${plexMono.variable} antialiased`}>
         <Provider>
-          <AppHeader />
+          {/* <AppHeader /> */}
           {children}
         </Provider>
       </body>
