@@ -14,6 +14,7 @@ import { CreateInput } from "./CreateInput";
 import { Doc, Id } from "../../../../convex/_generated/dataModel";
 import TreeItemWrapper from "./TreeItemWrapper";
 import { ChevronRightIcon } from "lucide-react";
+import { RenameInput } from "./RenameInput";
 
 const Tree = ({
   item,
@@ -33,11 +34,18 @@ const Tree = ({
   const createFile = useCreateFile();
   const createFolder = useCreateFolder();
 
-  const folderContents = useFolderContent({
+  const folderRender = useFolderContent({
     projectId,
     parentId: item._id,
     enabled: item.type === "folder" && isOpen,
   });
+
+  const handleRename = (newName: string) => {
+    setIsRenaming(false);
+    if (newName === item.name) return;
+
+    renameFile({ id: item._id, newName });
+  };
 
   const handleCreate = (name: string) => {
     const type = creating; // capture first
@@ -66,6 +74,19 @@ const Tree = ({
 
   if (item.type === "file") {
     const fileName = item.name;
+
+    if (isRenaming) {
+      return (
+        <RenameInput
+          type="file"
+          defaultValue={fileName}
+          level={level ?? 0}
+          onSubmit={handleRename}
+          onCancel={() => setIsRenaming(false)}
+        />
+      );
+    }
+
     return (
       <TreeItemWrapper
         item={item}
@@ -114,7 +135,7 @@ const Tree = ({
         </button>
         {isOpen && (
           <>
-            {folderContents === undefined && (
+            {folderRender === undefined && (
               <Loadingrow level={(level ?? 0) + 1} />
             )}
             <CreateInput
@@ -124,7 +145,44 @@ const Tree = ({
               onCancel={() => setCreating(null)}
             />
 
-            {folderContents?.map((subItem) => (
+            {folderRender?.map((subItem) => (
+              <Tree
+                key={subItem._id}
+                item={subItem}
+                level={(level ?? 0) + 1}
+                projectId={projectId}
+              />
+            ))}
+          </>
+        )}
+      </>
+    );
+  }
+
+  if (isRenaming) {
+    return (
+      <>
+        <RenameInput
+          type="folder"
+          defaultValue={folderName}
+          isOpen={isOpen}
+          level={level ?? 0}
+          onSubmit={handleRename}
+          onCancel={() => setIsRenaming(false)}
+        />
+        {isOpen && (
+          <>
+            {folderRender === undefined && (
+              <Loadingrow level={(level ?? 0) + 1} />
+            )}
+            {/* <CreateInput
+              type={creating}
+              level={level ?? +1}
+              onSubmit={handleCreate}
+              onCancel={() => setCreating(null)}
+            /> */}
+
+            {folderRender?.map((subItem) => (
               <Tree
                 key={subItem._id}
                 item={subItem}
@@ -156,10 +214,10 @@ const Tree = ({
       </TreeItemWrapper>
       {isOpen && (
         <>
-          {folderContents === undefined && (
+          {folderRender === undefined && (
             <Loadingrow level={(level ?? 0) + 1} />
           )}
-          {folderContents?.map((subItem) => (
+          {folderRender?.map((subItem) => (
             <Tree
               key={subItem._id}
               item={subItem}

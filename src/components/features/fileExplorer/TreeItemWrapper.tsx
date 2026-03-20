@@ -65,7 +65,7 @@ const TreeItemWrapper = ({
               New File...
             </ContextMenuItem>
 
-            <ContextMenuItem onClick={onCreateFile} className="text-sm">
+            <ContextMenuItem onClick={onCreateFolder} className="text-sm">
               New folder...
             </ContextMenuItem>
             <ContextMenuSeparator />
@@ -75,7 +75,7 @@ const TreeItemWrapper = ({
           Rename...
           <ContextMenuShortcut>Enter</ContextMenuShortcut>
         </ContextMenuItem>
-        
+
         <ContextMenuItem onClick={onDelete} className="text-sm">
           Delete permanently
           <ContextMenuShortcut>⌘ Backspace</ContextMenuShortcut>
