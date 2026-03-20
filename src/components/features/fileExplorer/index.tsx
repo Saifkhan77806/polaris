@@ -32,7 +32,6 @@ export const FileExplorer = ({ projectId }: { projectId: Id<"projects"> }) => {
   const createFile = useCreateFile();
   const createFolder = useCreateFolder();
 
-
   const handleCreate = (name: string) => {
     setCreating(null);
     if (creating === "file") {
@@ -125,14 +124,14 @@ export const FileExplorer = ({ projectId }: { projectId: Id<"projects"> }) => {
                 onCancel={() => setCreating(null)}
               />
             )}
-            {rootFiles?.map((item) => {
+            {rootFiles?.map((item) => (
               <Tree
                 key={`${item._id}-${collaspeKey}`}
                 item={item}
                 level={0}
                 projectId={projectId}
-              />;
-            })}
+              />
+            ))}
           </>
         )}
       </ScrollArea>

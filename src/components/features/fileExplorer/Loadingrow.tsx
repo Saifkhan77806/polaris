@@ -7,7 +7,7 @@ const Loadingrow = ({
   className,
   level,
 }: {
-  level?: number;
+  level: number;
   className?: string;
 }) => {
   return <div className={cn(

@@ -19,17 +19,17 @@ export const useFolderContent = ({
   parentId?: Id<"files">;
   enabled?: boolean;
 }) => {
-  console.log(
-    "rootfiles",
-    useQuery(
-      api.files.getFolderContent,
-      enabled ? { projectId, parentId } : "skip",
-    ),
-    "project id",
-    projectId,
-    "parentId",
-    parentId,
-  );
+  // console.log(
+  //   "rootfiles",
+  //   useQuery(
+  //     api.files.getFolderContent,
+  //     enabled ? { projectId, parentId } : "skip",
+  //   ),
+  //   "project id",
+  //   projectId,
+  //   "parentId",
+  //   parentId,
+  // );
 
   return useQuery(
     api.files.getFolderContent,
