@@ -15,6 +15,7 @@ import { Doc, Id } from "../../../../convex/_generated/dataModel";
 import TreeItemWrapper from "./TreeItemWrapper";
 import { ChevronRightIcon } from "lucide-react";
 import { RenameInput } from "./RenameInput";
+import { useEditor } from "@/hooks/use-editor";
 
 const Tree = ({
   item,
@@ -33,6 +34,8 @@ const Tree = ({
   const deleteFile = useDeleteFile();
   const createFile = useCreateFile();
   const createFolder = useCreateFolder();
+
+  const { openFile, closeTab, activeTabId } = useEditor(projectId);
 
   const folderRender = useFolderContent({
     projectId,
@@ -74,6 +77,7 @@ const Tree = ({
 
   if (item.type === "file") {
     const fileName = item.name;
+    const isActive = activeTabId === item._id;
 
     if (isRenaming) {
       return (
@@ -91,12 +95,12 @@ const Tree = ({
       <TreeItemWrapper
         item={item}
         level={level ?? 0}
-        isActive={false}
-        onClick={() => {}}
-        onDoubleClick={() => {}}
+        isActive={isActive}
+        onClick={() => openFile(item._id, { pinned: false })}
+        onDoubleClick={() => openFile(item._id, { pinned: true })}
         onRename={() => setIsRenaming(true)}
         onDelete={() => {
-          // TODO: Close tab
+          closeTab(item._id);
           deleteFile({ id: item._id });
         }}
       >
